@@ -3,68 +3,87 @@ const BASE_URL = 'https://api.nytimes.com/svc/topstories/v2/science.json';
 const form = document.querySelector('#searchForm');
 const criteria = document.querySelector('#select');
 const list = document.querySelector('#searchResults');
+const storyData = [];
 
-// get latest public data from API and store into var
+// GET all the latest public data from API and store into var
 const getPublicData = async() => {
   try {
     const res = await axios.get(`${BASE_URL}?api-key=${API_KEY}`);
-    const storyData = res.data.results;
+    storyData = res.data.results;
     return storyData;
   } catch(e) {
     return `Nope! ${e}`;
   }
 }
 
-// search by Title, Section, and Byline
-const searchAny = async () => {
+getPublicData(); // init call
+
+// retrieve titles
+const getTitles = async() => {
   try {
-    const storyData = await getPublicData();
-    for (var i = 0; i < storyData.length; i++ ) {
-      // switch()
-    }
+    var localStoryData = storyData;
+    const titleData = localStoryData.filter((story) => {
+      return story.title;
+    });
+    return titleData; // still need to make sure these are checked by RegEx and sanitized before filtering against queries
   } catch(e) {
-    console.log(`Title not found: ${e}`);
+    return `Nope! ${e}`;
   }
 }
 
-// search by Titles
-const searchTitles = async () => {
+// retrieve sections
+const getSections = async() => {
   try {
-    const storyData = await getPublicData();
-    for (var i = 0; i < storyData.length; i++ ) {
-      // switch()
-    }
+    var localStoryData = storyData;
+    const sectionData = localStoryData.filter((story) => {
+      return story.section;
+    });
+    return sectionData; // same as titleData
   } catch(e) {
-    console.log(`Title not found: ${e}`);
+    return `Nope! ${e}`;
   }
 }
 
-
-// search by Sections
-const searchSections = async () => {
+// retrieve bylines
+const getBylines = async() => {
   try {
-    const storyData = await getPublicData();
-    for (var i = 0; i < storyData.length; i++ ) {
-      // switch()
-    }
+    var localStoryData = storyData;
+    const bylineData = localStoryData.filter((story) => {
+      return story.byline;
+    });
+    return bylineData; // same as title and section above
   } catch(e) {
-    console.log(`Section not found: ${e}`);
+    return `Nope! ${e}`;
   }
 }
 
-
-// search by Bylines
-const searchBylines = async () => {
+// filter by Titles
+const filterTitles = async (q) => {
   try {
-    const storyData = await getPublicData();
-    for (var i = 0; i < storyData.length; i++ ) {
-
-    }
+    let titles = await getTitles();
+    console.log(titles);
   } catch(e) {
-    console.log(`Byline not found: ${e}`);
+    console.log(`No titles found: ${e}`);
   }
 }
 
+// filter by Sections
+const filterSections = async (q) => {
+  try {
+    let sections = await getSections();
+  } catch(e) {
+    console.log(`No sections found: ${e}`);
+  }
+}
+
+// filter by Bylines
+const filterBylines = async (q) => {
+  try {
+    let bylines = await getBylines();
+  } catch(e) {
+    console.log(`No bylines found: ${e}`);
+  }
+}
 
 // display results
 const showResults = (res) => {
@@ -82,9 +101,22 @@ const clearResults = () => {
 
 };
 
-// validate user input
-const validateTerms = () => {
+// basic checks on user input
+const validateTerms = (term) => {
+  const regex = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/); // test for special characters
 
+  if (regex.test(term)) {
+    alert('Please retry your search without special characters.'); // temp, replace with DOM feedback
+  } else {
+    term.toLowerCase();
+
+    if ( /\s/.test(term)) {
+      const terms = term.split(" ");
+      return terms;
+    } else {
+      return term;
+    }
+  }
 };
 
 // capture user input and search criteria
@@ -93,25 +125,22 @@ if (form) {
     e.preventDefault();
 
     // clear previous results display here
-    // make that fn await before next steps
 
-    // save terms and criteria
+    // save terms and query
     const searchTerm = form.elements.query.value;
-    const searchBy = criteria.value ? criteria.value : 'any';
+    const searchQuery = await validateTerms(searchTerm);
 
-    // switch case by criteria
-    switch (searchBy) {
-      case 'any':
-        searchAny(searchTerm);
-        break;
+    // decide case by filter option
+    const filterBy = criteria.value ? criteria.value : 'title';
+    switch (filterBy) {
       case 'title':
-        searchTitles(searchTerm);
+        filterTitles(searchQuery);
         break;
       case 'section':
-      searchSections(searchTerm);
+        filterSections(searchQuery);
         break;
       case 'byline':
-       searchBylines(searchTerm);
+        filterBylines(searchQuery);
         break;
       default:
         break;
