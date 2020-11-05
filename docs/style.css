@@ -118,6 +118,12 @@ form button.button-submit {
   border: 2px solid #323232;
   border-radius: 0 8px;
   padding: 1rem;
+  transition: 0.25s ease-out;
+}
+
+form button.button-submit:hover {
+  background-color: #d41515e9;
+  transition: 0.25s ease-in;
 }
 
 .block__search-dropdown {
