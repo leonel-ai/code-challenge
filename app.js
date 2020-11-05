@@ -27,7 +27,7 @@ const searchAny = async () => {
   }
 }
 
-// search by Title
+// search by Titles
 const searchTitles = async () => {
   try {
     const storyData = await getPublicData();
@@ -83,33 +83,38 @@ const clearResults = () => {
 };
 
 // validate user input
+const validateTerms = () => {
 
+};
 
 // capture user input and search criteria
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const searchTerm = form.elements.query.value;
-    const searchBy = criteria.value;
-    return (searchTerm, searchBy);
-  });
-}
 
-// switch case by search criteria
-switch (searchBy) {
-  case 'any':
-    // searchAny(searchTerm);
-    break;
-  case 'title':
-    // searchTitles(searchTerm);
-    break;
-  case 'section':
-  // searchSections(searchTerm);
-    break;
-  case 'byline':
-   // searchBylines(searchTerm);
-    break;
-  default:
-    //
-    break;
+    // clear previous results display here
+    // make that fn await before next steps
+
+    // save terms and criteria
+    const searchTerm = form.elements.query.value;
+    const searchBy = criteria.value ? criteria.value : 'any';
+
+    // switch case by criteria
+    switch (searchBy) {
+      case 'any':
+        searchAny(searchTerm);
+        break;
+      case 'title':
+        searchTitles(searchTerm);
+        break;
+      case 'section':
+      searchSections(searchTerm);
+        break;
+      case 'byline':
+       searchBylines(searchTerm);
+        break;
+      default:
+        break;
+    }
+  });
 }
