@@ -3,39 +3,35 @@ const BASE_URL = 'https://api.nytimes.com/svc/topstories/v2/science.json';
 const form = document.querySelector('#searchForm');
 const criteria = document.querySelector('#select');
 const list = document.querySelector('#searchResults');
-const storyData = [];
 
 // GET all the latest public data from API and store into var
 const getPublicData = async() => {
   try {
     const res = await axios.get(`${BASE_URL}?api-key=${API_KEY}`);
-    storyData = res.data.results;
-    return storyData;
+    return res.data.results;
   } catch(e) {
     return `Nope! ${e}`;
   }
 }
 
-getPublicData(); // init call
-
 // retrieve titles
-const getTitles = async() => {
+const getTitles = async(storyData) => {
   try {
-    var localStoryData = storyData;
-    const titleData = localStoryData.filter((story) => {
+    var localData = [...storyData];
+    const titleData = localData.filter((story) => {
       return story.title;
     });
-    return titleData; // still need to make sure these are checked by RegEx and sanitized before filtering against queries
+    return titleData; // still need to make sure these are checked by RegEx before filtering against queries
   } catch(e) {
     return `Nope! ${e}`;
   }
 }
 
 // retrieve sections
-const getSections = async() => {
+const getSections = async(storyData) => {
   try {
-    var localStoryData = storyData;
-    const sectionData = localStoryData.filter((story) => {
+    var localData = [...storyData];
+    const sectionData = localData.filter((story) => {
       return story.section;
     });
     return sectionData; // same as titleData
@@ -45,10 +41,10 @@ const getSections = async() => {
 }
 
 // retrieve bylines
-const getBylines = async() => {
+const getBylines = async(storyData) => {
   try {
-    var localStoryData = storyData;
-    const bylineData = localStoryData.filter((story) => {
+    var localData = [...storyData];
+    const bylineData = localData.filter((story) => {
       return story.byline;
     });
     return bylineData; // same as title and section above
@@ -58,9 +54,9 @@ const getBylines = async() => {
 }
 
 // filter by Titles
-const filterTitles = async (q) => {
+const filterTitles = async (q, d) => {
   try {
-    let titles = await getTitles();
+    let titles = await getTitles(d);
     console.log(titles);
   } catch(e) {
     console.log(`No titles found: ${e}`);
@@ -68,7 +64,7 @@ const filterTitles = async (q) => {
 }
 
 // filter by Sections
-const filterSections = async (q) => {
+const filterSections = async (q, d) => {
   try {
     let sections = await getSections();
   } catch(e) {
@@ -77,7 +73,7 @@ const filterSections = async (q) => {
 }
 
 // filter by Bylines
-const filterBylines = async (q) => {
+const filterBylines = async (q, d) => {
   try {
     let bylines = await getBylines();
   } catch(e) {
@@ -123,6 +119,7 @@ const validateTerms = (term) => {
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    const storyData = await getPublicData();
 
     // clear previous results display here
 
@@ -131,16 +128,16 @@ if (form) {
     const searchQuery = await validateTerms(searchTerm);
 
     // decide case by filter option
-    const filterBy = criteria.value ? criteria.value : 'title';
+    const filterBy = criteria.value ? criteria.value : '';
     switch (filterBy) {
       case 'title':
-        filterTitles(searchQuery);
+        filterTitles(searchQuery, storyData);
         break;
       case 'section':
-        filterSections(searchQuery);
+        filterSections(searchQuery, storyData);
         break;
       case 'byline':
-        filterBylines(searchQuery);
+        filterBylines(searchQuery, storyData);
         break;
       default:
         break;

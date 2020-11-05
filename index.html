@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link type="text/css" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="style.css">
 
   <meta charset="UTF-8">
@@ -21,22 +23,43 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-  <h1>NYT Science</h1>
-  <form id="searchForm" action="">
-    <input type="" placeholder="Search" name="query">
-    <label for="select">Filter Results:</label>
-    <div class="block__search-dropdown">
-      <select id="select">
-        <option value="title">Title</option>
-        <option value="section">Section</option>
-        <option value="byline">Byline</option>
-      </select>
-    </div>
-    <button class="button">Submit</button>
-  </form>
+  <main>
+    <header>header tbd</header>
+    <section>
+      <div class="container">
+        <div class="content-wrapper">
+          <div class="block block__search-banner">
+            <h1>NYT Science</h1>
+            <form id="searchForm" action="">
+              <input type="text" placeholder="Search" name="query">
+              <label for="select">Filter:</label>
+              <div class="block__search-dropdown">
+                <select id="select">
+                  <option disabled selected value></option>
+                  <option value="title">Title</option>
+                  <option value="section">Section</option>
+                  <option value="byline">Byline</option>
+                </select>
+              </div>
+              <button class="button button-submit"><i class="fas fa-search"></i></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="content-wrapper">
+          <div class="block block__search-results">
+            <h2>Search Results</h2>
+            <ul id="searchResults"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <ul id="searchResults"></ul>
-
+    <footer>footer tbd</footer>
+  </main>
   <script src="app.js"></script>
 </body>
 </html>
