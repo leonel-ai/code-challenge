@@ -10,11 +10,6 @@
   --main-font: "Titillium", sans-serif; /* temp */
 }
 
-::placeholder {
-  color: #323232;
-  font-weight: 400;
-}
-
 html, body {
   font-family: var(--main-font);
   font-size: 16px;
@@ -89,8 +84,9 @@ form input {
   flex: 0 1 60%;
   margin: 0 0.5rem;
   font-family: var(--main-font);
-  color: #323232;
-  font-size: 1rem;
+  color: black;
+  font-size: 1.1rem;
+  text-transform: uppercase;
 }
 
 form label {
@@ -102,11 +98,6 @@ form label {
 form select {
   width: 100%;
   margin: 0 0.5rem;
-}
-
-form select option {
-  font-family: var(--main-font);
-  font-weight: 400;
 }
 
 form button.button-submit {

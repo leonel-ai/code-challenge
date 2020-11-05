@@ -22,6 +22,7 @@ const getTitles = async(storyData) => {
       return story.title;
     });
     return titleData; // still need to make sure these are checked by RegEx before filtering against queries
+
   } catch(e) {
     return `Nope! ${e}`;
   }
@@ -57,7 +58,7 @@ const getBylines = async(storyData) => {
 const filterTitles = async (q, d) => {
   try {
     let titles = await getTitles(d);
-    console.log(titles);
+    showResults(titles[1].title); // TEMP JUST FOR OUTPUT TESTING
   } catch(e) {
     console.log(`No titles found: ${e}`);
   }
@@ -66,7 +67,7 @@ const filterTitles = async (q, d) => {
 // filter by Sections
 const filterSections = async (q, d) => {
   try {
-    let sections = await getSections();
+    // let sections = await getSections();
   } catch(e) {
     console.log(`No sections found: ${e}`);
   }
@@ -75,7 +76,7 @@ const filterSections = async (q, d) => {
 // filter by Bylines
 const filterBylines = async (q, d) => {
   try {
-    let bylines = await getBylines();
+    // let bylines = await getBylines();
   } catch(e) {
     console.log(`No bylines found: ${e}`);
   }
