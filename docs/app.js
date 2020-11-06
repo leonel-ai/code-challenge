@@ -128,10 +128,12 @@ const showResults = (res) => {
   try {
     const newLI = document.createElement('li');
     const newLink = document.createElement('a');
-    listLabel.classList.toggle('active');
     newLI.append(res);
     newLink.append(newLI);
     list.append(newLink);
+    if (!listLabel.classList.contains('active')) {
+      listLabel.classList.add('active');
+    }
   } catch(e) {
     console.log(`Wrong: ${e}`);
   }
@@ -139,9 +141,12 @@ const showResults = (res) => {
 
 // clear results
 const clearResults = () => {
-  listLabel.classList.toggle('active');
+  if (listLabel.classList.contains('active')) {
+    listLabel.classList.remove('active');
+  }
   list.innerHTML = '';
 };
+
 
 // handle strings
 const handleStr = (str) => {
@@ -171,9 +176,10 @@ if (form) {
     const formInput = form.elements.query.value;
     // clean up terms
     const searchQuery = await handleStr(formInput);
-    console.log(searchQuery);
+
     // capture filter
-    // const filterBy = criteria.value ? criteria.value : '';
+    const filterBy = criteria.value ? criteria.value : '';
+    console.log(filterBy);
     // send data to get cleaned up and sorted by filter
     // const sortedData = await sortByFilter(localData, filterBy);
     // const sortedData = await filterData(storyData, searchQuery);
