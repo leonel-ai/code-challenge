@@ -13,7 +13,7 @@ const getPublicData = async() => {
   } catch(e) {
     return `Nope! ${e}`;
   }
-}
+};
 
 // retrieve titles
 const getTitles = async(storyData) => {
@@ -27,7 +27,7 @@ const getTitles = async(storyData) => {
   } catch(e) {
     return `Nope! ${e}`;
   }
-}
+};
 
 // retrieve sections
 const getSections = async(storyData) => {
@@ -40,7 +40,7 @@ const getSections = async(storyData) => {
   } catch(e) {
     return `Nope! ${e}`;
   }
-}
+};
 
 // retrieve bylines
 const getBylines = async(storyData) => {
@@ -53,7 +53,7 @@ const getBylines = async(storyData) => {
   } catch(e) {
     return `Nope! ${e}`;
   }
-}
+};
 
 // filter by Titles
 const filterTitles = async (q, d) => {
@@ -63,7 +63,7 @@ const filterTitles = async (q, d) => {
   } catch(e) {
     console.log(`No titles found: ${e}`);
   }
-}
+};
 
 // filter by Sections
 const filterSections = async (q, d) => {
@@ -72,7 +72,7 @@ const filterSections = async (q, d) => {
   } catch(e) {
     console.log(`No sections found: ${e}`);
   }
-}
+};
 
 // filter by Bylines
 const filterBylines = async (q, d) => {
@@ -81,14 +81,44 @@ const filterBylines = async (q, d) => {
   } catch(e) {
     console.log(`No bylines found: ${e}`);
   }
-}
+};
 
-// display results
+const filterData = async (data, query) => {
+  try {
+    // decide case by filter
+    // switch (filterBy) {
+    //   // then pass clean terms and data to find matches
+    //   case 'title':
+    //     filterTitles(searchQuery, sortedData);
+    //     break;
+    //   case 'section':
+    //     filterSections(searchQuery, sortedData);
+    //     break;
+    //   case 'byline':
+    //     filterBylines(searchQuery, sortedData);
+    //     break;
+    //   default:
+    //     break;
+    // }
+  } catch(e) {
+    console.log(`Could not filter stories by ${filter}. ${e}`)
+  }
+};
+
+const sortByFilter = async (data, filter) => {
+  try {
+    console.log(data);
+  } catch(e) {
+    console.log(`Could not sort by ${filter}. ${e}`);
+  }
+};
+
+// show results
 const showResults = (res) => {
   try {
-    listLabel.classList.toggle('active');
     const newLI = document.createElement('li');
     const newLink = document.createElement('a');
+    listLabel.classList.toggle('active');
     newLI.append(res);
     newLink.append(newLI);
     list.append(newLink);
@@ -120,33 +150,39 @@ const handleStr = (str) => {
   }
 };
 
-// capture user input and search criteria
+// CAPTURE SEARCH TERMS AND RETURN MATCHES ON FORM INPUT
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     const storyData = await getPublicData();
 
-    // clear previous results display here
+    // clear previous results
     clearResults();
+    // capture user input
+    const formInput = form.elements.query.value;
+    // clean up terms
+    const searchQuery = await handleStr(formInput);
 
-    // save search terms
-    const searchTerm = form.elements.query.value;
-    const searchQuery = await handleStr(searchTerm);
-
-    // decide case by filter option
+    // capture filter
     const filterBy = criteria.value ? criteria.value : '';
-    switch (filterBy) {
-      case 'title':
-        filterTitles(searchQuery, storyData);
-        break;
-      case 'section':
-        filterSections(searchQuery, storyData);
-        break;
-      case 'byline':
-        filterBylines(searchQuery, storyData);
-        break;
-      default:
-        break;
-    }
+    // send data to get cleaned up and sorted by filter
+    const sortedData = await sortByFilter(storyData, filterBy);
+    // const sortedData = await filterData(storyData, searchQuery);
+
+    // // decide case by filter
+    // switch (filterBy) {
+    //   // then pass clean terms and data to find matches
+    //   case 'title':
+    //     filterTitles(searchQuery, sortedData);
+    //     break;
+    //   case 'section':
+    //     filterSections(searchQuery, sortedData);
+    //     break;
+    //   case 'byline':
+    //     filterBylines(searchQuery, sortedData);
+    //     break;
+    //   default:
+    //     break;
+    // }
   });
 }

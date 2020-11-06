@@ -109,7 +109,7 @@ header .header-logo a::after { content: none; }
     margin: 0 1rem;
   }
 
-  nav .nav-list li span#date-ref {
+  nav .nav-list li span.date {
     font-weight: 600;
   }
 
