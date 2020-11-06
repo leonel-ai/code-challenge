@@ -86,10 +86,12 @@ const filterBylines = async (q, d) => {
 const showResults = (res) => {
   try {
     const newLI = document.createElement('li');
+    const newLink = document.createElement('a');
     newLI.append(res);
-    list.append(newLI);
+    newLink.append(newLI);
+    list.append(newLink);
   } catch(e) {
-    console.log(`Wrong: ${e}`)
+    console.log(`Wrong: ${e}`);
   }
 };
 
@@ -98,20 +100,19 @@ const clearResults = () => {
 
 };
 
-// basic checks on user input
-const validateTerms = (term) => {
+// handle strings
+const handleStr = (str) => {
   const regex = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/); // test for special characters
 
-  if (regex.test(term)) {
+  if (regex.test(str)) {
     alert('Please retry your search without special characters.'); // temp, replace with DOM feedback
   } else {
-    term.toLowerCase();
-
-    if ( /\s/.test(term)) {
-      const terms = term.split(" ");
-      return terms;
+    str.toLowerCase();
+    if ( /\s/.test(str)) {
+      const termsArr = str.split(" ");
+      return termsArr;
     } else {
-      return term;
+      return termStr;
     }
   }
 };
@@ -124,9 +125,9 @@ if (form) {
 
     // clear previous results display here
 
-    // save terms and query
+    // save search terms
     const searchTerm = form.elements.query.value;
-    const searchQuery = await validateTerms(searchTerm);
+    const searchQuery = await handleStr(searchTerm);
 
     // decide case by filter option
     const filterBy = criteria.value ? criteria.value : '';
