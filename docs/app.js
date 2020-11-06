@@ -26,46 +26,46 @@ const getScienceData = async() => {
 };
 
 // // search titles
-// const searchTitles = async(data, query) => {
-//   try {
-//     var localData = [...storyData];
-//     const titleData = localData.filter((story) => {
-//       return story.title;
-//     });
-//     return titleData; // still need to make sure these are checked by RegEx before filtering against queries
+const searchTitles = async(data, query) => {
+  try {
+    var localData = [...storyData];
+    const titleData = localData.filter((story) => {
+      return story.title;
+    });
+    return titleData; // still need to make sure these are checked by RegEx before filtering against queries
 
-//   } catch(e) {
-//     return `Nope! ${e}`;
-//   }
-// };
+  } catch(e) {
+    return `Nope! ${e}`;
+  }
+};
 
 // // search bylines
-// const searchBylines = async(data, query) => {
-//   try {
-//     var localData = [...storyData];
-//     const bylineData = localData.filter((story) => {
-//       return story.byline;
-//     });
-//     return bylineData; // same as title and section above
-//   } catch(e) {
-//     return `Nope! ${e}`;
-//   }
-// };
+const searchBylines = async(data, query) => {
+  try {
+    var localData = [...storyData];
+    const bylineData = localData.filter((story) => {
+      return story.byline;
+    });
+    return bylineData; // same as title and section above
+  } catch(e) {
+    return `Nope! ${e}`;
+  }
+};
 
 // // search abstracts
-// const searchAbstracts = async(data, query) => {
-//   try {
-//     var localData = [...data];
-//     const abstractData = localData.filter((story) => {
-//       return story.abstract;
-//     });
-//     return abstractData; // same as title and section above
-//   } catch(e) {
-//     return `Nope! ${e}`;
-//   }
-// };
+const searchAbstracts = async(data, query) => {
+  try {
+    var localData = [...data];
+    const abstractData = localData.filter((story) => {
+      return story.abstract;
+    });
+    return abstractData; // same as title and section above
+  } catch(e) {
+    return `Nope! ${e}`;
+  }
+};
 
-const sortByFilter = (data, filterBy) => {
+const sortByFilter = (data, filterBy, query) => {
   try {
     // remove spanish stories
     const dataENG = data.filter((item) => {
@@ -74,25 +74,27 @@ const sortByFilter = (data, filterBy) => {
       }
     });
     // sort case by filter selection, then clean up sorted data
+    // and send to get matched
     switch (filterBy) {
       case 'title':
         var allTitles = dataENG.map((item) => item.title );
-        handleData(allTitles);
+        var cleanTitles = handleData(allTitles);
+        matchData(cleanTitles, query);
         break;
-      // case 'byline':
-      //   var allBylines = dataENG.map((item) => item.byline );
-      //   handleData(allBylines);
-      //   break;
-      // case 'abstract':
-      //   var allAbstracts = dataENG.map((item) => item.abstract );
-      //   handleData(allAbstracts);
-      //   break;
+      case 'byline':
+        var allBylines = dataENG.map((item) => item.byline );
+        var cleanBylines =  handleData(allBylines);
+        matchData(cleanBylines, query);
+        break;
+      case 'abstract':
+        var allAbstracts = dataENG.map((item) => item.abstract );
+        var cleanAbstracts = handleData(allAbstracts);
+        matchData(cleanAbstracts, query);
+        break;
       default:
         break;
     }
-    // for (var i = 0; i < d.length; i++) {
-    //   console.log(d[i].filterBy);
-    // }
+
   } catch(e) {
     console.log(`Could not sort by ${filterBy}. ${e}`);
   }
@@ -104,6 +106,7 @@ const showResults = (res) => {
     const newLI = document.createElement('li');
     const newLink = document.createElement('a');
     newLI.append(res);
+    // need to add link to href attribute
     newLink.append(newLI);
     list.append(newLink);
     if (!listLabel.classList.contains('active')) {
@@ -158,36 +161,36 @@ const handleStr = (str) => {
 // handle data
 const handleData = (data) => {
   try {
-    const regexSC = new RegExp(/[^a-zA-Z ]/g);
-    const regexWS = new RegExp(/\s/);
+      const regexSC = new RegExp(/[^a-zA-Z ]/g);
+      const regexWS = new RegExp(/\s/);
 
-    const cleanData = data.map((item) => {
-      if (regexWS.test(item)) {
-        // create array of strings
-        var arrOfStr = str.split(" ");
+      const cleanData = data.map((item) => {
+        if (regexWS.test(item)) {
+              // create array of strings
+              var arrOfStr = item.split(" ");
 
-        const cleanStr = arrOfStr.map((item) => {
-          // replace special characters
-          if (regexSC.test(item)) {
-            item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
-          } else {
-            item.toLowerCase();
-          }
-        });
-        return cleanStr;
-      } else {
-      // replace special characters
-        if (regexSC.test(item)) {
-          item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
-          console.log(item);
+              const cleanStr = arrOfStr.map((arrItem) => {
+                // replace special characters
+                if (regexSC.test(arrItem)) {
+                  return arrItem.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+                } else {
+                  return arrItem.toLowerCase();
+                }
+              });
+              return cleanStr;
+        } else {
+            // replace special characters
+              if (regexSC.test(item)) {
+                item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+                console.log(item);
+              }
+              else {
+                return item.toLowerCase();
+                console.log(item);
+              }
         }
-        else {
-          return item.toLowerCase();
-          console.log(item);
-        }
-      }
-    });
-    // console.log(cleanData);
+      });
+      return(cleanData);
   } catch(e) {
     console.log(`Could not handle this data. ${e}`);
   }
@@ -208,7 +211,7 @@ if (form) {
     // capture filter
     const filterBy = criteria.value ? criteria.value : '';
     // send data to get cleaned up and sorted by filter
-    sortByFilter(localData, filterBy);
+    const sortedData = await sortByFilter(localData, filterBy, searchQuery);
 
   });
 }
