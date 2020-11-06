@@ -207,8 +207,13 @@ form button.button-submit:hover {
   justify-content: center;
 }
 
-.block__search-headline {
+.block__search-header {
   text-align: center;
+  margin: 0 0 2rem;
+}
+
+.block__search-header h1 {
+  margin-bottom: 0.5rem;
 }
 
 .block__search-dropdown {
