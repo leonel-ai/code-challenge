@@ -236,6 +236,14 @@ form button.button-submit:hover {
   grid-gap: 1rem;
 }
 
+.block__search-results--list h3 {
+  display: none;
+}
+
+.block__search-results--list h3.active {
+  display: block;
+}
+
 .block__search-results--list ul {
   width: 100%;
 }

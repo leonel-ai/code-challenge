@@ -3,6 +3,7 @@ const BASE_URL = 'https://api.nytimes.com/svc/topstories/v2/science.json';
 const form = document.querySelector('#searchForm');
 const criteria = document.querySelector('#select');
 const list = document.querySelector('#searchResults');
+const listLabel = document.querySelector('#resultsLabel');
 
 // GET all the latest public data from API and store into var
 const getPublicData = async() => {
@@ -85,6 +86,7 @@ const filterBylines = async (q, d) => {
 // display results
 const showResults = (res) => {
   try {
+    listLabel.classList.toggle('active');
     const newLI = document.createElement('li');
     const newLink = document.createElement('a');
     newLI.append(res);
@@ -97,7 +99,8 @@ const showResults = (res) => {
 
 // clear results
 const clearResults = () => {
-
+  listLabel.classList.toggle('active');
+  list.innerHTML = '';
 };
 
 // handle strings
@@ -124,6 +127,7 @@ if (form) {
     const storyData = await getPublicData();
 
     // clear previous results display here
+    clearResults();
 
     // save search terms
     const searchTerm = form.elements.query.value;
