@@ -11,13 +11,13 @@
   --main-text-color: #272525;
   --main-background-color: #de171792;
   --hover-accent: #d41515f0;
-  --green-accent: #02c58b;
   --blue-accent: rgba(20,55,207,.925);
 }
 
 html, body {
   font-family: var(--main-font);
   font-size: 16px;
+  line-height: 1.15;
   color: var(--main-text-color);
   overflow: hidden;
   height: 100%;
@@ -46,6 +46,25 @@ h3 {
 
 ul, ol, li {
   list-style: none;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  color: var(--main-text-color);
+}
+
+a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--blue-accent);
+  transition: width .3s;
+}
+
+a:hover::after {
+  width: 100%;
 }
 
 /* HEADER || FOOTER */
@@ -87,18 +106,6 @@ header .header-logo {
 
   nav .nav-list li span.date-ref {
     font-weight: 600;
-  }
-
-  nav .nav-list li a {
-    text-decoration: none;
-    outline: none;
-    color: var(--main-text-color);
-  }
-
-  nav .nav-list li a:hover {
-    font-weight: 500;
-    border-bottom: 2px solid var(--blue-accent);
-    padding-bottom: 0.15rem;
   }
 
 /* STRUCTURE */
@@ -193,8 +200,9 @@ form button.button-submit:hover {
 
 /* BLOCKS */
 
+/** search **/
 .block__search-banner {
-  width: 95%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -205,7 +213,32 @@ form button.button-submit:hover {
   margin-right: 1rem;
 }
 
+
+/** results **/
 .block__search-results {
- display: grid;
- width: 100%;
+  display: grid;
+  width: 100%;
+  border: 2px dashed pink;
+}
+
+.block__search-results ul {
+  max-width: 50%; /* temp */
+}
+
+.block__search-results ul li {
+  display: inline-block;
+  max-width: 100%;
+  word-break: break-all;
+}
+
+.block__search-results ul li,
+.block__search-results ul li a {
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.block__search-results ul li a {
+  text-decoration: none;
+  color: var(--main-text-color);
 }
