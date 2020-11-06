@@ -8,7 +8,7 @@ export default function Search() {
   const [active, setActive] = useState(false)
   const [results, setResults] = useState([])
 
-  const searchEndpoint = (query) => `/api/search?q=${query}`
+  const searchEndpoint = (query) => `/search?q=${query}`
 
   const onChange = useCallback((event) => {
     const query = event.target.value;
