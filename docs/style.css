@@ -103,7 +103,7 @@ header .header-logo {
     margin: 0 1rem;
   }
 
-  nav .nav-list li span.date-ref {
+  nav .nav-list li span#date-ref {
     font-weight: 600;
   }
 

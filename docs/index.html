@@ -22,6 +22,11 @@
   <meta name="twitter:title" content="NYT Science" />
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    var today = new Date();
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    document.querySelector('#date-ref').innerHTML = date;
+    </script>
 </head>
 <body>
   <main>
@@ -33,7 +38,7 @@
               <li><a href="https://www.nytimes.com/section/science" class="" id="science-link">Science</a></li>
               <li><a href="https://www.nytimes.com/section/technology" class="" id="tech-link">Tech</a></li>
               <li><a href="https://www.nytimes.com/section/health" class="" id="health-link">Health</a></li>
-              <li><span class="date-ref">Thursday, November 5, 2020</span></li>
+              <li><span id="date-ref">Thursday, November 5, 2020</span></li>
             </ul>
           </nav>
           <div role="banner" class="header-logo">
