@@ -25,32 +25,46 @@ const getScienceData = async() => {
   }
 };
 
-// match titles
-const matchTitles = async(data, query) => {
-  try {
-    var localData = [...storyData];
-    const titleData = localData.filter((story) => {
-      return story.title;
-    });
-    return titleData; // still need to make sure these are checked by RegEx before filtering against queries
+// // search titles
+// const searchTitles = async(data, query) => {
+//   try {
+//     var localData = [...storyData];
+//     const titleData = localData.filter((story) => {
+//       return story.title;
+//     });
+//     return titleData; // still need to make sure these are checked by RegEx before filtering against queries
 
-  } catch(e) {
-    return `Nope! ${e}`;
-  }
-};
+//   } catch(e) {
+//     return `Nope! ${e}`;
+//   }
+// };
 
-// match bylines
-const matchBylines = async(data, query) => {
-  try {
-    var localData = [...storyData];
-    const bylineData = localData.filter((story) => {
-      return story.byline;
-    });
-    return bylineData; // same as title and section above
-  } catch(e) {
-    return `Nope! ${e}`;
-  }
-};
+// // search bylines
+// const searchBylines = async(data, query) => {
+//   try {
+//     var localData = [...storyData];
+//     const bylineData = localData.filter((story) => {
+//       return story.byline;
+//     });
+//     return bylineData; // same as title and section above
+//   } catch(e) {
+//     return `Nope! ${e}`;
+//   }
+// };
+
+// // search abstracts
+// const searchAbstracts = async(data, query) => {
+//   try {
+//     var localData = [...data];
+//     const abstractData = localData.filter((story) => {
+//       return story.abstract;
+//     });
+//     return abstractData; // same as title and section above
+//   } catch(e) {
+//     return `Nope! ${e}`;
+//   }
+// };
+
 
 const filterData = async (data, query) => {
   try {
@@ -76,7 +90,11 @@ const filterData = async (data, query) => {
 
 const sortByFilter = async (data, filter) => {
   try {
-    console.log(data);
+    var cleanData = data.map( async (item) => {
+      let arrOfCleanData = await handleData(item);
+      console.log(arrOfCleanData);
+    });
+    console.log(cleanData);
   } catch(e) {
     console.log(`Could not sort by ${filter}. ${e}`);
   }
@@ -120,6 +138,25 @@ const handleStr = (str) => {
       return str;
     }
   }
+};
+
+// handle data
+const handleData = (data) => {
+  try {
+    return data;
+  } catch(e) {
+    console.log(`Could not sort by ${filter}. ${e}`);
+  }
+  // var cleanData = arr.map((item) => {
+  //   item.toLowerCase();
+  //   // test if returning array of strings
+  //   if ( /\s/.test(item)) {
+  //     return item.split(" ");
+  //   } else {
+  //     return item;
+  //   }
+  // });
+  // return cleanData;
 };
 
 // CAPTURE SEARCH TERMS AND RETURN MATCHES ON FORM INPUT
