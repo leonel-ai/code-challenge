@@ -6,12 +6,22 @@ const list = document.querySelector('#searchResults');
 const listLabel = document.querySelector('#resultsLabel');
 
 // GET all the latest public data from API and store into var
-const getPublicData = async() => {
+const getScienceData = async() => {
   try {
     const res = await axios.get(`${BASE_URL}?api-key=${API_KEY}`);
-    return res.data.results;
+    const resultsArr = res.data.results;
+    var sections = '';
+    var scienceData = [];
+
+    for (var i = 0; i < resultsArr.length; i++) {
+      sections = resultsArr[i].section;
+      if (sections == 'science') {
+        scienceData.push(resultsArr[i]);
+      }
+    }
+    return scienceData;
   } catch(e) {
-    return `Nope! ${e}`;
+    return `Nope! Could not retrieve the data. ${e}`;
   }
 };
 
@@ -145,7 +155,7 @@ const handleStr = (str) => {
       const termsArr = str.split(" ");
       return termsArr;
     } else {
-      return termStr;
+      return str;
     }
   }
 };
@@ -154,7 +164,7 @@ const handleStr = (str) => {
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const storyData = await getPublicData();
+    const storyData = await getScienceData();
 
     // clear previous results
     clearResults();
