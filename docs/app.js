@@ -65,38 +65,36 @@ const getScienceData = async() => {
 //   }
 // };
 
-
-const filterData = async (data, query) => {
+const sortByFilter = (data, filterBy) => {
   try {
-    // decide case by filter
-    // switch (filterBy) {
-    //   // then pass clean terms and data to find matches
-    //   case 'title':
-    //     filterTitles(searchQuery, sortedData);
-    //     break;
-    //   case 'section':
-    //     filterSections(searchQuery, sortedData);
-    //     break;
-    //   case 'byline':
-    //     filterBylines(searchQuery, sortedData);
-    //     break;
-    //   default:
-    //     break;
+    // remove spanish stories
+    const dataENG = data.filter((item) => {
+      if (!item.url.includes('\/es\/')) {
+        return true;
+      }
+    });
+    // sort case by filter selection, then clean up sorted data
+    switch (filterBy) {
+      case 'title':
+        var allTitles = dataENG.map((item) => item.title );
+        handleData(allTitles);
+        break;
+      // case 'byline':
+      //   var allBylines = dataENG.map((item) => item.byline );
+      //   handleData(allBylines);
+      //   break;
+      // case 'abstract':
+      //   var allAbstracts = dataENG.map((item) => item.abstract );
+      //   handleData(allAbstracts);
+      //   break;
+      default:
+        break;
+    }
+    // for (var i = 0; i < d.length; i++) {
+    //   console.log(d[i].filterBy);
     // }
   } catch(e) {
-    console.log(`Could not filter stories by ${filter}. ${e}`)
-  }
-};
-
-const sortByFilter = async (data, filter) => {
-  try {
-    var cleanData = data.map( async (item) => {
-      let arrOfCleanData = await handleData(item);
-      console.log(arrOfCleanData);
-    });
-    console.log(cleanData);
-  } catch(e) {
-    console.log(`Could not sort by ${filter}. ${e}`);
+    console.log(`Could not sort by ${filterBy}. ${e}`);
   }
 };
 
@@ -126,37 +124,73 @@ const clearResults = () => {
 
 // handle strings
 const handleStr = (str) => {
-  // test for special characters
-  const regex = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
+  try {
+    const regexSC = new RegExp(/[^a-zA-Z ]/g);
+    const regexWS = new RegExp(/\s/);
 
-  if (!regex.test(str)) {
-    str.toLowerCase();
-    // test if returning array of strings
-    if ( /\s/.test(str)) {
-      return str.split(" ");
+    // replace spaces if applicable
+    if (regexWS.test(str)) {
+      // create array of strings
+      var arrOfStr = str.split(" ");
+
+      const cleanStr = arrOfStr.map((item) => {
+        // replace special characters
+        if (regexSC.test(item)) {
+          item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+        } else {
+          item.toLowerCase();
+        }
+      });
+      return cleanStr;
+
     } else {
-      return str;
+      if (regexSC.test(str)) {
+        return str.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+      } else {
+        return str.toLowerCase();
+      }
     }
+  } catch(e) {
+    console.log(`Could not handle input. ${e}`);
   }
 };
 
 // handle data
 const handleData = (data) => {
   try {
-    return data;
+    const regexSC = new RegExp(/[^a-zA-Z ]/g);
+    const regexWS = new RegExp(/\s/);
+
+    const cleanData = data.map((item) => {
+      if (regexWS.test(item)) {
+        // create array of strings
+        var arrOfStr = str.split(" ");
+
+        const cleanStr = arrOfStr.map((item) => {
+          // replace special characters
+          if (regexSC.test(item)) {
+            item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+          } else {
+            item.toLowerCase();
+          }
+        });
+        return cleanStr;
+      } else {
+      // replace special characters
+        if (regexSC.test(item)) {
+          item.replace(/[^a-zA-Z ]/g, "").toLowerCase();
+          console.log(item);
+        }
+        else {
+          return item.toLowerCase();
+          console.log(item);
+        }
+      }
+    });
+    // console.log(cleanData);
   } catch(e) {
-    console.log(`Could not sort by ${filter}. ${e}`);
+    console.log(`Could not handle this data. ${e}`);
   }
-  // var cleanData = arr.map((item) => {
-  //   item.toLowerCase();
-  //   // test if returning array of strings
-  //   if ( /\s/.test(item)) {
-  //     return item.split(" ");
-  //   } else {
-  //     return item;
-  //   }
-  // });
-  // return cleanData;
 };
 
 // CAPTURE SEARCH TERMS AND RETURN MATCHES ON FORM INPUT
@@ -174,23 +208,7 @@ if (form) {
     // capture filter
     const filterBy = criteria.value ? criteria.value : '';
     // send data to get cleaned up and sorted by filter
-    const sortedData = await sortByFilter(localData, filterBy);
-    // const sortedData = await filterData(storyData, searchQuery);
+    sortByFilter(localData, filterBy);
 
-    // // decide case by filter
-    // switch (filterBy) {
-    //   // then pass clean terms and data to find matches
-    //   case 'title':
-    //     filterTitles(searchQuery, sortedData);
-    //     break;
-    //   case 'section':
-    //     filterSections(searchQuery, sortedData);
-    //     break;
-    //   case 'byline':
-    //     filterBylines(searchQuery, sortedData);
-    //     break;
-    //   default:
-    //     break;
-    // }
   });
 }
