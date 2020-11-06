@@ -7,18 +7,29 @@
 }
 
 :root {
-  --main-font: "Titillium", sans-serif; /* temp */
+  --main-font: "Titillium", sans-serif;
+  --main-text-color: #272525;
+  --main-background-color: #de171792;
+  --hover-accent: #d41515f0;
+  --green-accent: #02c58b;
+  --blue-accent: rgba(20,55,207,.925);
 }
 
 html, body {
   font-family: var(--main-font);
   font-size: 16px;
+  color: var(--main-text-color);
   overflow: hidden;
   height: 100%;
   width: 100%;
   padding: 0;
   margin: 0;
-  background: #de171792;
+  background: var(--main-background-color);
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
 }
 
 h1 {
@@ -28,9 +39,58 @@ h2 {
   font-size: 2.5rem;
 }
 
+ul, ol, li {
+  list-style: none;
+}
+
 header, footer {
-  padding: 2rem;
-  border: 1px dashed #323232;
+  padding: 1rem 0;
+}
+
+header {
+  display: flex;
+  width: 100%;
+}
+
+header .content-wrapper {
+  justify-content: space-between;
+}
+
+nav {
+  display: flex;
+  flex: 0 1 100%;
+  justify-content: flex-start;
+}
+
+nav .nav-list {
+  display: flex;
+  flex: 0 1 50%;
+}
+
+nav .nav-list li {
+  white-space: nowrap;
+  margin: 0 1rem;
+}
+
+nav .nav-list li span.date-ref {
+  font-weight: 600;
+}
+
+nav .nav-list li a {
+  text-decoration: none;
+  outline: none;
+  color: var(--main-text-color);
+}
+
+nav .nav-list li a:hover {
+  font-weight: 500;
+  border-bottom: 2px solid var(--blue-accent);
+  padding-bottom: 0.15rem;
+}
+
+.header-logo {
+  flex: 0 1 20%;
+  max-width: 240px;
 }
 
 section {
@@ -47,6 +107,7 @@ section {
   position: relative;
   max-width: 1440px;
   width: 100%;
+  margin: 0 auto;
 }
 
 .content-wrapper {
@@ -54,6 +115,7 @@ section {
   position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .block__search-banner {
@@ -76,7 +138,7 @@ input, textarea, select {
   outline: none;
   box-shadow: none;
   border: none;
-  border-bottom: 2px solid #323232;
+  border-bottom: 2px solid var(--main-text-color);
   opacity: 1;
 }
 
@@ -85,7 +147,7 @@ form input {
   margin: 0 0.5rem;
   font-family: var(--main-font);
   font-weight: 600;
-  color: black;
+  color: var(--main-text-color);
   font-size: 1.1rem;
   text-transform: uppercase;
 }
@@ -112,7 +174,7 @@ form button.button-submit {
   box-shadow: none;
   outline: none;
   border: none;
-  border: 2px solid #323232;
+  border: 2px solid var(--main-text-color);
   border-radius: 0 8px;
   padding: 1rem;
   transition: 0.25s ease-out;
@@ -120,7 +182,7 @@ form button.button-submit {
 }
 
 form button.button-submit:hover {
-  background-color: #d41515e9;
+  background-color: var(--hover-accent);
   transition: 0.25s ease-in;
 }
 
@@ -130,3 +192,7 @@ form button.button-submit:hover {
 }
 
 /* do second container in css grid? */
+.block__search-results {
+ display: grid;
+ width: 100%;
+}
