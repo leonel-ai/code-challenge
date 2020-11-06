@@ -218,7 +218,6 @@ form button.button-submit:hover {
 .block__search-results {
   display: grid;
   width: 100%;
-  border: 2px dashed pink;
 }
 
 .block__search-results ul {
