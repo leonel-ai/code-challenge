@@ -145,15 +145,14 @@ const clearResults = () => {
 
 // handle strings
 const handleStr = (str) => {
-  const regex = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/); // test for special characters
+  // test for special characters
+  const regex = new RegExp(/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/);
 
-  if (regex.test(str)) {
-    alert('Please retry your search without special characters.'); // temp, replace with DOM feedback
-  } else {
+  if (!regex.test(str)) {
     str.toLowerCase();
+    // test if returning array of strings
     if ( /\s/.test(str)) {
-      const termsArr = str.split(" ");
-      return termsArr;
+      return str.split(" ");
     } else {
       return str;
     }
@@ -164,7 +163,7 @@ const handleStr = (str) => {
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
-    const storyData = await getScienceData();
+    const localData = await getScienceData();
 
     // clear previous results
     clearResults();
@@ -172,11 +171,11 @@ if (form) {
     const formInput = form.elements.query.value;
     // clean up terms
     const searchQuery = await handleStr(formInput);
-
+    console.log(searchQuery);
     // capture filter
-    const filterBy = criteria.value ? criteria.value : '';
+    // const filterBy = criteria.value ? criteria.value : '';
     // send data to get cleaned up and sorted by filter
-    const sortedData = await sortByFilter(storyData, filterBy);
+    // const sortedData = await sortByFilter(localData, filterBy);
     // const sortedData = await filterData(storyData, searchQuery);
 
     // // decide case by filter
