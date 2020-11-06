@@ -25,8 +25,8 @@ const getScienceData = async() => {
   }
 };
 
-// retrieve titles
-const getTitles = async(storyData) => {
+// match titles
+const matchTitles = async(data, query) => {
   try {
     var localData = [...storyData];
     const titleData = localData.filter((story) => {
@@ -39,21 +39,8 @@ const getTitles = async(storyData) => {
   }
 };
 
-// retrieve sections
-const getSections = async(storyData) => {
-  try {
-    var localData = [...storyData];
-    const sectionData = localData.filter((story) => {
-      return story.section;
-    });
-    return sectionData; // same as titleData
-  } catch(e) {
-    return `Nope! ${e}`;
-  }
-};
-
-// retrieve bylines
-const getBylines = async(storyData) => {
+// match bylines
+const matchBylines = async(data, query) => {
   try {
     var localData = [...storyData];
     const bylineData = localData.filter((story) => {
@@ -62,34 +49,6 @@ const getBylines = async(storyData) => {
     return bylineData; // same as title and section above
   } catch(e) {
     return `Nope! ${e}`;
-  }
-};
-
-// filter by Titles
-const filterTitles = async (q, d) => {
-  try {
-    let titles = await getTitles(d);
-    showResults(titles[1].title); // TEMP JUST FOR OUTPUT TESTING
-  } catch(e) {
-    console.log(`No titles found: ${e}`);
-  }
-};
-
-// filter by Sections
-const filterSections = async (q, d) => {
-  try {
-    // let sections = await getSections();
-  } catch(e) {
-    console.log(`No sections found: ${e}`);
-  }
-};
-
-// filter by Bylines
-const filterBylines = async (q, d) => {
-  try {
-    // let bylines = await getBylines();
-  } catch(e) {
-    console.log(`No bylines found: ${e}`);
   }
 };
 
@@ -147,7 +106,6 @@ const clearResults = () => {
   list.innerHTML = '';
 };
 
-
 // handle strings
 const handleStr = (str) => {
   // test for special characters
@@ -176,12 +134,10 @@ if (form) {
     const formInput = form.elements.query.value;
     // clean up terms
     const searchQuery = await handleStr(formInput);
-
     // capture filter
     const filterBy = criteria.value ? criteria.value : '';
-    console.log(filterBy);
     // send data to get cleaned up and sorted by filter
-    // const sortedData = await sortByFilter(localData, filterBy);
+    const sortedData = await sortByFilter(localData, filterBy);
     // const sortedData = await filterData(storyData, searchQuery);
 
     // // decide case by filter
