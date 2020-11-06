@@ -83,6 +83,8 @@ header .header-logo {
   max-width: 240px;
 }
 
+header .header-logo a::after { content: none; }
+
 /* navigation */
   nav {
     display: flex;
@@ -96,6 +98,10 @@ header .header-logo {
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+
+  nav .nav-list li:first-of-type {
+    margin-left: 0;
   }
 
   nav .nav-list li {
