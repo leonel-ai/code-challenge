@@ -10,6 +10,20 @@
   --main-font: "Titillium", sans-serif; /* temp */
 }
 
+/* change autocomplete styles in Chrome */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  color: #323232;
+  background: #de171792;
+}
+
 html, body {
   font-family: var(--main-font);
   font-size: 16px;
@@ -69,7 +83,7 @@ form {
   align-items: flex-end;
 }
 
-form input, form textarea, form select {
+input, textarea, select {
   appearance: none;
   padding: 0.5rem;
   background: transparent;
@@ -123,4 +137,4 @@ form button.button-submit:hover {
   margin-right: 1rem;
 }
 
-/* do second container in css grid */
+/* do second container in css grid? */
