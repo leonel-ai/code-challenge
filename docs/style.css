@@ -10,20 +10,6 @@
   --main-font: "Titillium", sans-serif; /* temp */
 }
 
-/* change autocomplete styles in Chrome */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  color: #323232;
-  background: #de171792;
-}
-
 html, body {
   font-family: var(--main-font);
   font-size: 16px;
@@ -98,6 +84,7 @@ form input {
   flex: 0 1 60%;
   margin: 0 0.5rem;
   font-family: var(--main-font);
+  font-weight: 600;
   color: black;
   font-size: 1.1rem;
   text-transform: uppercase;
@@ -112,6 +99,11 @@ form label {
 form select {
   width: 100%;
   margin: 0 0.5rem;
+  color: #323232;
+  font-size: 1.1rem;
+  font-family: var(--main-font);
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 form button.button-submit {
