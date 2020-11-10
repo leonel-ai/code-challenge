@@ -1,0 +1,55 @@
+$main-font: "Titillium", sans-serif;
+
+html, body {
+  font-family: $main-font;
+  font-size: 16px;
+  line-height: 1.15;
+  color: $main-text-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $main-font, sans-serif;
+}
+
+h1 {
+  font-size: 3.15rem;
+  font-weight: 900;
+}
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+h3 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+ul, ol {
+  list-style: inside;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+  color: $main-text-color;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: $link-accent;
+    transition: width .3s;
+  }
+
+  &:hover, &:focus, &:active {
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+  }
+
+  &:hover::after {
+    @apply w-full;
+  }
+}
