@@ -1,6 +1,5 @@
 # dependencies
-/node_modules
-/docs/node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
@@ -15,9 +14,8 @@
 /build
 
 # misc
-.DS_Store
-/docs/.DS_Store
-.vscode
+**/.DS_Store
+**/.vscode/
 
 # debug
 npm-debug.log*
