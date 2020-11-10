@@ -16,6 +16,8 @@
 # misc
 **/.DS_Store
 **/.vscode/
+.alpackages
+*.app
 
 # debug
 npm-debug.log*
