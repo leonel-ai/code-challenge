@@ -7,8 +7,7 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+**/.next/
 
 # production
 /build
@@ -16,8 +15,8 @@
 # misc
 **/.DS_Store
 **/.vscode/
-.alpackages
-*.app
+**/.alpackages
+**/.app
 
 # debug
 npm-debug.log*
